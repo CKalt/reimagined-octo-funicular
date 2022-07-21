@@ -1,0 +1,61 @@
+This is git status after before forking to my github.
+    I did a `mv .git original_dot_git_dir` then created my own
+
+
+    diff --git a/web/main.js b/web/main.js
+    index 4751a55..f439a1b 100644
+    --- a/web/main.js
+    +++ b/web/main.js
+    @@ -1,10 +1,13 @@
+     // Config variables: change them to point to your own servers
+    -const SIGNALING_SERVER_URL = 'http://localhost:9999';
+    -const TURN_SERVER_URL = 'localhost:3478';
+    +const SIGNALING_SERVER_URL = 'http://chrislap:9999';
+    +const TURN_SERVER_URL = 'chrislap:3478';
+     const TURN_SERVER_USERNAME = 'username';
+     const TURN_SERVER_CREDENTIAL = 'credential';
+     // WebRTC config: you don't have to change this for the example to work
+     // If you are testing on localhost, you can just use PC_CONFIG = {}
+    +const PC_CONFIG = {};
+    +
+    +/*
+     const PC_CONFIG = {
+       iceServers: [
+         {
+    @@ -19,6 +22,7 @@ const PC_CONFIG = {
+         }
+       ]
+     };
+    +*/
+     
+     // Signaling methods
+     let socket = io(SIGNALING_SERVER_URL, { autoConnect: false });
+
+
+
+The above changes allowed my to get the demo working between cdesk and chrislap.
+
+All I had to do was:
+
+1. On chrislap
+    hostname -I
+        # write down address
+    cd signaling 
+    python server.py
+
+2. On chrislap
+    launch browser and hit:
+        http://localhost:8080
+    after clicking to allow browser camera access
+        little live video using mirror image was shown.
+
+3. On cdesk
+    make sure /etc/hosts had a "chrislap" entry for ipaddress from hostname command from step 1.
+
+4. On cdesk
+    launch browser and hit:
+        http://chrislap:8080
+
+    a big remove camera feed from chrislap webcam should be displayed as well as the remote smaller
+        mirror feed.
+
